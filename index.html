@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bootstrap Component</title>
+    <link rel="stylesheet" href="./require/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="./BootstrapComponent/requireStyle.css">
+    <style>
+        #app{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <b-calendar v-model="result1"></b-calendar>
+        <b-pagination :page.sync="page" :total-items="total"></b-pagination>
+        <b-datepicker v-model="result2"></b-datepicker>
+    </div>
+    <script src="./require/vue@2-6-14.js"></script>
+    <script type="module">
+        import {
+            BootstrapCalendar,
+            BootstrapPagination,
+            BootstrapDatepicker} from "./BootstrapComponent";
+
+        const app = new Vue({
+            components: {
+                'BCalendar' : BootstrapCalendar,
+                'BPagination' : BootstrapPagination,
+                'BDatepicker' : BootstrapDatepicker
+            },
+
+            data(){
+                return{
+                    page: 1,
+                    total: 23_114_514,
+
+                    result1: [],
+
+                    result2: []
+                }
+            },
+
+            watch: {
+                page(newPage){
+                    console.log("Page update, now is: ", newPage);
+                }
+            }
+        });
+
+        app.$mount("#app")
+    </script>
+</body>
+</html>

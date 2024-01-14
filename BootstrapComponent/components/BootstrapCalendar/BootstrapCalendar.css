@@ -1,0 +1,44 @@
+.itemDiv {
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dateItem {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15%;
+    cursor: pointer;
+}
+
+.itemDiv .another {
+    cursor: pointer;
+    opacity: .5;
+}
+
+.dateItem:hover{
+    background-color: #e9ecef;
+}
+
+.dateItem.isBetweenRange{
+    background-color: #e9ecef;
+}
+
+.dateItem.active {
+    background-color: #007bff;
+    color: white;
+}
+
+.yearAndMonth{
+    border-radius: 1rem;
+    cursor: pointer;
+}
+
+.yearAndMonth:hover{
+    background-color: #e9ecef;
+}
