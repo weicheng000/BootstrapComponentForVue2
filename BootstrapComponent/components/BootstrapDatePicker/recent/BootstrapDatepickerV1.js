@@ -1,12 +1,12 @@
 /**
- * BootstrapDatepicker
+ * BootstrapDatepickerV1
  * <p>for Vue 2.6.14 with Bootstrap 4.2</p>
  * @version 0.01
  * @author RCF jasonchiang
  * @since 2024/1/11
  * <p>請直接使用v-model跟一個Array物件綁定此元件</p>
 */
-export const BootstrapDatepicker = {
+export const BootstrapDatepickerV1 = {
     name:'BootstrapDatepicker',
 
     props: {

@@ -114,9 +114,12 @@ export const BootstrapCalendar = {
         `,
 
     data() {
+
+        const currentDate = new Date();
+
         return {
-            year: 2024,
-            month: 1,
+            year: currentDate.getFullYear(),
+            month: currentDate.getMonth() + 1,
 
             headerDisplay: "",
 
@@ -179,6 +182,7 @@ export const BootstrapCalendar = {
     },
 
     mounted() {
+        this.result = [...this.value];
         // console.log(this.currentMonthArray)
     },
 
@@ -386,7 +390,7 @@ export const BootstrapCalendar = {
 
             if (this.result.length === 2 || this.result.length === 0) {
                 tempResult = [...this.result];
-                console.log(tempResult);
+                // console.log(tempResult);
             }
 
             this.$emit('input', tempResult);

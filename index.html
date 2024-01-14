@@ -17,9 +17,9 @@
 </head>
 <body>
     <div id="app">
-        <b-calendar v-model="result1"></b-calendar>
+        <b-datepicker v-model="result1"></b-datepicker>
+        <b-calendar v-model="result2"></b-calendar>
         <b-pagination :page.sync="page" :total-items="total"></b-pagination>
-        <b-datepicker v-model="result2"></b-datepicker>
     </div>
     <script src="./require/vue@2-6-14.js"></script>
     <script type="module">
