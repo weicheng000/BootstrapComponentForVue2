@@ -1,9 +1,9 @@
 /**
  * BootstrapCalendar
  * <p>for Vue 2.6.14 with Bootstrap 4.2</p>
- * @version 0.01
+ * @version 0.02
  * @author RCF jasonchiang
- * @since 2024/1/14
+ * @since 2024/1/15
  * <p>請直接使用v-model跟一個Array物件綁定此元件</p>
  */
 export const BootstrapCalendar = {
@@ -79,7 +79,7 @@ export const BootstrapCalendar = {
                     <div v-for="(day, index) in week" class="itemDiv"
                          :key="index">
                       <template v-if="day !== 0">
-                          <span :class="{'dateItem': true, 'isBetweenRange': isBetweenRange(day) ,'active': isActive(day)}"
+                          <span :class="{'dateItem': true, 'isBetweenRange': isBetweenRange(day) || isFinishSelect(day) ,'active': isActive(day)}"
                                 @mouseenter="getNowHoverItem(day)"
                                 @mouseleave="resetNowHoverItem()"
                                 @click="getSelectDate(day)">
@@ -129,10 +129,10 @@ export const BootstrapCalendar = {
             // 年月份選擇器
             isSelectYear: true,
 
-            // 星期標題，預設設計成可實現i18n
+            // 星期標題，預計設計成可實現i18n
             weekday: ['日', '一', '二', '三', '四', '五', '六'],
 
-            // 月份選擇標題，預設設計成可實現i18n
+            // 月份選擇標題，預計設計成可實現i18n
             monthSelectArray:[
                 '一月', '二月', '三月', '四月',
                 '五月', '六月', '七月', '八月',
@@ -286,6 +286,14 @@ export const BootstrapCalendar = {
             const maxDate = Math.max(Date.parse(this.result[0]), Date.parse(this.nowHoverItem));
 
             return minDate < Date.parse(targetDate) && Date.parse(targetDate) < maxDate;
+        },
+
+        isFinishSelect(day){
+            if (this.result.length === 2){
+                const targetDate = this.buildHtmlDate(this.year, this.month, day);
+
+                return Date.parse(this.result[0]) < Date.parse(targetDate) && Date.parse(targetDate) < Date.parse(this.result[1]);
+            }
         },
 
         // 顯示選擇控件 結束
