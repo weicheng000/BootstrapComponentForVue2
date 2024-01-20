@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Bootstrap Component</title>
     <link rel="stylesheet" href="./require/bootstrap/css/bootstrap.css">
-    <link rel="stylesheet" href="./BootstrapComponent/requireStyle.css">
+    <link rel="stylesheet" href="./BootstrapComponent/BootstrapMitacExtend.css">
     <style>
         #app{
             display: flex;
@@ -16,23 +16,84 @@
     </style>
 </head>
 <body>
-    <div id="app">
-        <b-datepicker v-model="result1"></b-datepicker>
-        <b-calendar v-model="result2"></b-calendar>
-        <b-pagination :page.sync="page" :total-items="total"></b-pagination>
+    <div id="app" class="container">
+        <div class="row justify-content-center align-items-center mb-5">
+            <div class="col-12 text-center">
+                <h3>Date Picker</h3>
+            </div>
+            <div class="col-12">
+                <b-datepicker v-model="result1"></b-datepicker>
+            </div>
+        </div>
+
+        <div class="row mb-5">
+            <div class="col-12 text-center">
+                <h3>Pagination</h3>
+            </div>
+            <div class="col-12">
+                <b-pagination :page.sync="page" :total-items="total"></b-pagination>
+            </div>
+        </div>
+
+        <div class="row mb-5">
+            <div class="col-12 text-center">
+                <h3>Select & Input</h3>
+            </div>
+            <div class="d-flex align-items-center justify-content-center col">
+                <b-select :select-array="selectArray" v-model="result3" placeholder="請選國家"></b-select>
+                <ba-input :select-array="selectArray" v-model="result3"></ba-input>
+            </div>
+        </div>
+
+        <div class="row mb-1">
+            <div class="col-12 text-center">
+                <h3>Ajax Button</h3>
+            </div>
+            <div class="m-auto">
+                <b-button
+                        :loading="isLoading"
+                        @click="clickEvent"
+                        class="btn-primary btn-sm"></b-button>
+                <b-button
+                        :loading="isLoading"
+                        pre-icon="bi-file-earmark-spreadsheet"
+                        loading-text="Exporting..."
+                        @click="clickEvent"
+                        class="btn-success">Export Excel</b-button>
+                <b-button
+                        :loading="isLoading"
+                        pre-icon="bi-arrow-left-circle"
+                        append-icon="bi-arrow-right-circle"
+                        loading-text="我被點了..."
+                        @click="clickEvent"
+                        class="btn-info btn-lg">點我!</b-button>
+                <b-button
+                        :loading="isLoading"
+                        @click="clickEvent"
+                        class="btn-danger btn-sm"></b-button>
+            </div>
+        </div>
+
     </div>
     <script src="./require/vue@2-6-14.js"></script>
     <script type="module">
         import {
             BootstrapCalendar,
             BootstrapPagination,
-            BootstrapDatepicker} from "./BootstrapComponent";
+            BootstrapDatepicker,
+            BootstrapButton,
+            BootstrapSelect,
+            BootstrapAutocompleteInput
+        } from "./BootstrapComponent";
 
         const app = new Vue({
             components: {
                 'BCalendar' : BootstrapCalendar,
                 'BPagination' : BootstrapPagination,
-                'BDatepicker' : BootstrapDatepicker
+                'BDatepicker' : BootstrapDatepicker,
+                'BButton': BootstrapButton,
+                'BSelect': BootstrapSelect,
+                'BaInput':BootstrapAutocompleteInput
             },
 
             data(){
@@ -42,13 +103,38 @@
 
                     result1: [],
 
-                    result2: []
+                    result2: [],
+
+                    result3: '',
+
+                    isLoading: false,
+
+                    selectArray: [
+                        { option: '美國', value: 'usa' },
+                        { option: '加拿大', value: 'canada' },
+                        {isDivider: true},
+                        { option: '英國', value: 'uk' },
+                        { option: '法國', value: 'france' },
+                        { option: '德國', value: 'germany' },
+                        {isDivider: true},
+                        { option: '日本', value: 'japan' },
+                        { option: '韓國', value: 'korean' },
+                    ]
                 }
             },
 
             watch: {
                 page(newPage){
                     console.log("Page update, now is: ", newPage);
+                }
+            },
+
+            methods:{
+                clickEvent(){
+                    this.isLoading = true;
+                    setTimeout(()=>{
+                        this.isLoading = false
+                    },3000)
                 }
             }
         });

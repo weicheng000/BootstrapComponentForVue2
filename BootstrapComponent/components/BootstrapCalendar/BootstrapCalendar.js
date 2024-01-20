@@ -1,10 +1,12 @@
 /**
  * BootstrapCalendar
  * <p>for Vue 2.6.14 with Bootstrap 4.2</p>
- * @version 0.02
+ * @version 0.05
  * @author RCF jasonchiang
- * @since 2024/1/15
+ * @since 2024/1/17
  * <p>請直接使用v-model跟一個Array物件綁定此元件</p>
+ * <p>title 日歷的標題</p>
+ * <p>modal屬性啟用鍵盤監聽ESC, 以及外部點擊監控</p>
  */
 export const BootstrapCalendar = {
     name: 'BootstrapCalendar',
@@ -13,15 +15,19 @@ export const BootstrapCalendar = {
         value: {
             type: Array,
             default: () => []
+        },
+        title:{
+            type: String,
+            default: () => 'Select Date'
         }
     },
 
     template: `
-          <div class="card shadow" style="width: 20rem">
-            <div class="card-header bg-primary text-white">
-              <p>Select Date</p>
+          <div class="bc-picker-container">
+            <div class="card-header bg-primary text-white font-weight-bold">
+              <p>{{ title }}</p>
               <template>
-                <b>{{ headerDisplayText }}</b>
+                {{ headerDisplayText }}
               </template>
             </div>
 
@@ -144,6 +150,9 @@ export const BootstrapCalendar = {
 
             // 回傳物件
             result: [],
+
+            isModal: false,
+            outSideClickTime: 0,
         }
     },
 
@@ -181,9 +190,29 @@ export const BootstrapCalendar = {
 
     },
 
+    created(){
+        // 判定是否有modal屬性
+        if (this.$attrs.modal !== undefined) {
+            this.isModal = true;
+        }
+    },
+
     mounted() {
         this.result = [...this.value];
-        // console.log(this.currentMonthArray)
+
+        if (this.value[0] !== undefined){
+            const dateObject = new Date(this.value[0]);
+            const year = dateObject.getFullYear();
+            const month = dateObject.getMonth() + 1;
+
+            this.year = year;
+            this.month = month;
+        }
+
+        // 如果有，就註冊鍵盤監聽Esc鍵
+        if (this.isModal){
+            document.addEventListener('keydown', this.handleEscKey);
+        }
     },
 
     methods: {
@@ -402,8 +431,29 @@ export const BootstrapCalendar = {
             }
 
             this.$emit('input', tempResult);
-        }
+        },
+
+        // ESC按鍵綁定方法
+        handleEscKey(event) {
+            if (event.key === 'Escape') {
+                this.closeModal();
+            }
+        },
+
+        // 父組件綁定事件
+
+        // esc綁定
+        closeModal() {
+            this.$emit('esc-click');
+        },
 
         // 功能區塊 結束
+    },
+
+    beforeDestroy() {
+        if (this.isModal){
+            // 在組件被銷毀之前移除全部監聽器，以防止內存洩漏
+            document.removeEventListener('keydown', this.handleEscKey);
+        }
     },
 }
